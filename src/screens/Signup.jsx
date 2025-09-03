@@ -11,11 +11,13 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
 export default function AuthScreens() {
   const [isLoginScreen, setIsLoginScreen] = useState(true);
+  const navigation = useNavigation();
 
   return (
     <KeyboardAvoidingView 
@@ -58,11 +60,11 @@ export default function AuthScreens() {
               />
             </View>
             
-            <TouchableOpacity style={styles.primaryButton}>
+            <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.replace('HomeScreen')}>
               <Text style={styles.primaryButtonText}>Log In</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.textButton}>
+            <TouchableOpacity style={styles.textButton} >
               <Text style={styles.textButtonText}>Forgot Password?</Text>
             </TouchableOpacity>
             
@@ -109,7 +111,7 @@ export default function AuthScreens() {
               />
             </View>
             
-            <TouchableOpacity style={styles.primaryButton}>
+            <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.replace('HomeScreen')} >
               <Text style={styles.primaryButtonText}>Sign Up</Text>
             </TouchableOpacity>
             
