@@ -24,12 +24,21 @@ app.use(cookieParser());
 
 
 // CORS: allow mobile app origin(s)
+// app.use(
+// cors({
+// origin: [process.env.CLIENT_ORIGIN, 'exp://127.0.0.1:19000', 'http://localhost:5173'].filter(Boolean),
+// credentials: true
+// })
+// );
 app.use(
-cors({
-origin: [process.env.CLIENT_ORIGIN, 'exp://127.0.0.1:19000', 'http://localhost:5173'].filter(Boolean),
-credentials: true
-})
+  cors({
+    origin: (origin, callback) => {
+      callback(null, true); // allow all origins
+    },
+    credentials: true,
+  })
 );
+
 
 
 // Basic rate limiter for auth routes

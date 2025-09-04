@@ -10,14 +10,46 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { login, register } from '../api/api';
 
 const { width, height } = Dimensions.get('window');
 
 export default function AuthScreens() {
   const [isLoginScreen, setIsLoginScreen] = useState(true);
   const navigation = useNavigation();
+
+  // form states
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // handle login/signup
+  const handleLogin = async () => {
+    try {
+      const { user, accessToken } = await login({ email, password });
+      Alert.alert("Login Success", `Welcome back`);
+      console.log("Token:", accessToken);
+      // TODO: Save token in context/state and navigate to Home
+      navigation.replace('HomeScreen');
+    } catch (err) {
+      Alert.alert("Login Failed", err.message);
+    }
+  };
+
+  const handleRegister = async () => {
+    try {
+      const { user, accessToken } = await register({ name, email, password });
+      Alert.alert("Registration Success", `Welcome ${user.name}`);
+      console.log("Token:", accessToken);
+      // TODO: Save token in context/state and navigate to Home
+      navigation.replace('HomeScreen');
+    } catch (err) {
+      Alert.alert("Signup Failed", err.message);
+    }
+  };
 
   return (
     <KeyboardAvoidingView 
@@ -47,6 +79,8 @@ export default function AuthScreens() {
                 placeholderTextColor="#aaa"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                onChangeText={setEmail}
+                value={email}
               />
             </View>
             
@@ -56,11 +90,12 @@ export default function AuthScreens() {
                 style={styles.input}
                 placeholder="Enter your password"
                 placeholderTextColor="#aaa"
-                secureTextEntry
+                onChangeText={setPassword}
+                value={password}
               />
             </View>
             
-            <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.replace('HomeScreen')}>
+            <TouchableOpacity style={styles.primaryButton} onPress={handleLogin}>
               <Text style={styles.primaryButtonText}>Log In</Text>
             </TouchableOpacity>
             
@@ -87,6 +122,8 @@ export default function AuthScreens() {
                 placeholder="Enter your full name"
                 placeholderTextColor="#aaa"
                 autoCapitalize="words"
+                onChangeText={setName}
+                value={name}
               />
             </View>
             
@@ -98,6 +135,8 @@ export default function AuthScreens() {
                 placeholderTextColor="#aaa"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                onChangeText={setEmail}
+                value={email}
               />
             </View>
             
@@ -107,11 +146,12 @@ export default function AuthScreens() {
                 style={styles.input}
                 placeholder="Create a password"
                 placeholderTextColor="#aaa"
-                secureTextEntry
+                onChangeText={setPassword}
+                value={password}
               />
             </View>
             
-            <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.replace('HomeScreen')} >
+            <TouchableOpacity style={styles.primaryButton} onPress={handleRegister} >
               <Text style={styles.primaryButtonText}>Sign Up</Text>
             </TouchableOpacity>
             

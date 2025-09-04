@@ -1,12 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import BottomNav from '../nav/BottomNav'
 
-const HomeScreen = () => {
-  return (
-    <View>
-      <Text>HomeScreen</Text>
-    </View>
-  )
+function HomeScreen() {
+  return <BottomNav />;
 }
 
 export default HomeScreen
