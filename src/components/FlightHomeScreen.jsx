@@ -91,11 +91,18 @@ export const GoogleFlightsApp = () => {
     setSelectedFlight(flight);
     setModalVisible(true);
     setDetailsLoading(true);
+    setFlightDetails(null);
 
     try {
       const details = await getFlightDetailsAPI(flight.id, flight.legs || []);
-      setFlightDetails(details);
+
+      console.log("RAW API RESPONSE:", JSON.stringify(details, null, 2));
+      console.log("SELECTED FLIGHT OBJECT:", JSON.stringify(flight, null, 2));
+
+      // This is our existing fix
+      setFlightDetails(details.data);
     } catch (err) {
+      console.error("Flight details error!!! :", err);
       setFlightDetails({ error: err.message });
     } finally {
       setDetailsLoading(false);

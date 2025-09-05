@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const RAPID_API_KEY='889f2bec9cmsh30e91b3f2494707p1bc2e1jsna31ed2eeb9a3' // Ensure you have this in your .env file
+const RAPID_API_KEY='900777d54bmsh69cedc9df3fb4d9p1422dajsnca1483a640f6' // Ensure you have this in your .env file
 
 
 const getFlightDetailsAPI = async (itineraryId, legs) => {
@@ -8,7 +8,7 @@ const getFlightDetailsAPI = async (itineraryId, legs) => {
     method: 'GET',
     url: 'https://sky-scrapper.p.rapidapi.com/api/v1/flights/getFlightDetails',
     params: {
-      itineraryId,
+      // itineraryId,
       legsIds: legs.map((l) => l.id), // API expects array of leg IDs
       currency: 'USD',
     },

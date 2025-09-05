@@ -8,6 +8,9 @@ import AuthScreens from './src/screens/Signup';
 import BottomNav from './src/nav/BottomNav';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View } from 'react-native';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 
