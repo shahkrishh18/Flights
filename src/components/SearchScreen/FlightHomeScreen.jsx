@@ -19,7 +19,7 @@ import axios from 'axios'; // NEW: Import axios for API calls
 import { LogOut } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { RAPID_API_KEY } from '@env';
+const RAPID_API_KEY='8a829467damsh7062717aaa16fa3p174741jsn0d6a778cdb82' // Ensure you have this in your .env file
 
 const getFlightDetailsAPI = async (itineraryId, legs) => {
   const options = {
@@ -353,7 +353,7 @@ const FlightCard = ({ item, onPress }) => {
 
   return (
     <TouchableOpacity onPress={() => onPress(item)}>
-      <View style={styles.card}>
+      <View style={styles.flightCard}>
         <Text style={styles.airline}>{airline}</Text>
         <Text style={styles.price}>{price}</Text>
       </View>
@@ -493,6 +493,7 @@ export const GoogleFlightsApp = () => {
 
 const handleFlightPress = async (flight) => {
   setSelectedFlight(flight);
+  setModalVisible(true);
   setDetailsLoading(true);
 
   try {
@@ -546,61 +547,62 @@ const handleFlightPress = async (flight) => {
       )}
       {selectedFlight && (
 <Modal
-  visible={true}
+  visible={modalVisible}
   transparent={true}
   animationType="slide"
   onRequestClose={() => setModalVisible(false)}
 >
   <View style={styles.modalOverlay}>
-    <View style={styles.modalCard}>
-      {/* Close Button */}
-      <TouchableOpacity
-        style={styles.closeButton}
-        onPress={() => setModalVisible(false)}
-      >
-        <Text style={styles.closeButtonText}>×</Text>
-      </TouchableOpacity>
+  <View style={styles.modalCard}>
+    {/* Close Button */}
+    <TouchableOpacity
+      style={styles.closeButton}
+      onPress={() => setModalVisible(false)}
+    >
+      <Text style={styles.closeButtonText}>×</Text>
+    </TouchableOpacity>
 
-      {detailsLoading ? (
-        <Text style={styles.loadingText}>Loading details...</Text>
-      ) : flightDetails ? (
-        <View style={styles.flightDetails}>
-    {/* Price */}
-    <Text style={styles.flightPrice}>
-      ${flightDetails.itinerary?.pricingOptions?.[0]?.totalPrice || "N/A"}
-    </Text>
+ { console.log('Checking flightDetails variable:', JSON.stringify(flightDetails, null, 2)) }
+    {detailsLoading ? (
+      <Text style={styles.loadingText}>Loading details...</Text>
+    ) : flightDetails && flightDetails.itinerary ? ( // Changed this line
+      <View style={styles.flightDetails}>
+        {/* Price */}
+        <Text style={styles.flightPrice}>
+          $ {flightDetails.itinerary.pricingOptions?.[0]?.totalPrice || "N/A"}
+        </Text>
 
-    {/* Route */}
-    <Text style={styles.flightRoute}>
-      {flightDetails.itinerary?.legs?.[0]?.origin?.name || "Unknown"} →
-      {flightDetails.itinerary?.legs?.[0]?.destination?.name || "Unknown"}
-    </Text>
+        {/* Route */}
+        <Text style={styles.flightRoute}>
+          {flightDetails.itinerary.legs?.[0]?.origin?.name || "Unknown"} →{" "}
+          {flightDetails.itinerary.legs?.[0]?.destination?.name || "Unknown"}
+        </Text>
 
-    {/* Airline */}
-    <Text style={styles.flightAirline}>
-      Airline:{" "}
-      {flightDetails.itinerary?.legs?.[0]?.segments?.[0]?.marketingCarrier?.name ||
-        "Unknown Airline"}
-    </Text>
+        {/* Airline */}
+        <Text style={styles.flightAirline}>
+          Airline:{" "}
+          {flightDetails.itinerary.legs?.[0]?.segments?.[0]?.marketingCarrier?.name ||
+            "Unknown Airline"}
+        </Text>
 
-    {/* Duration */}
-    <Text style={styles.flightDuration}>
-      Duration: {flightDetails.itinerary?.legs?.[0]?.duration || "N/A"} min
-    </Text>
+        {/* Duration */}
+        <Text style={styles.flightDuration}>
+          Duration: {flightDetails.itinerary.legs?.[0]?.duration || "N/A"} min
+        </Text>
 
-    {/* Times */}
-    <Text style={styles.flightTime}>
-      Departure: {flightDetails.itinerary?.legs?.[0]?.departure || "N/A"}
-    </Text>
-    <Text style={styles.flightTime}>
-      Arrival: {flightDetails.itinerary?.legs?.[0]?.arrival || "N/A"}
-    </Text>
+        {/* Times */}
+        <Text style={styles.flightTime}>
+          Departure: {flightDetails.itinerary.legs?.[0]?.departure || "N/A"}
+        </Text>
+        <Text style={styles.flightTime}>
+          Arrival: {flightDetails.itinerary.legs?.[0]?.arrival || "N/A"}
+        </Text>
+      </View>
+    ) : (
+      <Text style={styles.noData}>No flight details found.</Text>
+    )}
   </View>
-      ) : (
-        <Text style={styles.noData}>No flight details found.</Text>
-      )}
-    </View>
-  </View>
+</View>
 </Modal>
 
 
