@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-const RAPID_API_KEY='900777d54bmsh69cedc9df3fb4d9p1422dajsnca1483a640f6' // Ensure you have this in your .env file
-
+import {RAPID_API_KEY} from '@env';
 
 const getFlightDetailsAPI = async (itineraryId, legs) => {
   const options = {
