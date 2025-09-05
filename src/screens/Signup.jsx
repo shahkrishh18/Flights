@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { login, register } from '../api/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width, height } = Dimensions.get('window');
 
@@ -27,15 +28,30 @@ export default function AuthScreens() {
   const [password, setPassword] = useState("");
 
   // handle login/signup
-  const handleLogin = async () => {
+  const handleLogin = async (userData) => {
     try {
       const { user, accessToken } = await login({ email, password });
+
+      // Save token only if it exists
+    if (accessToken) {
+      await AsyncStorage.setItem('userToken', accessToken);
+      console.log("Token saved:", accessToken);
+    } else {
+      console.warn("No accessToken received from API");
+    }
+
+    // Save user info safely
+    if (user) {
+      await AsyncStorage.setItem('userInfo', JSON.stringify(user));
+    }
       Alert.alert("Login Success", `Welcome back`);
       console.log("Token:", accessToken);
       // TODO: Save token in context/state and navigate to Home
       navigation.replace('HomeScreen');
     } catch (err) {
       Alert.alert("Login Failed", err.message);
+      console.error("Login error:", err);
+      console.log(err.response);
     }
   };
 

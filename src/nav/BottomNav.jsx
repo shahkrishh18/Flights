@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Ionicons} from '@react-native-vector-icons/ionicons';
-import GoogleFlightsApp from '../components/SearchScreen/FlightHomeScreen'
+import GoogleFlightsApp from '../components/FlightHomeScreen'
+import { Header } from '../components/Header';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,8 @@ function SearchScreen() {
 
 function TripsScreen() {
   return (
-    <View style={styles.container}>
+    <View>
+      <Header />
       <Text style={styles.text}>Trips Screen</Text>
     </View>
   );
@@ -25,16 +27,14 @@ function TripsScreen() {
 
 function ExploreScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Explore Screen</Text>
-    </View>
+    <Header />
   );
 }
 
 function ProfileScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Profile Screen</Text>
+    <View>
+      <Header />
     </View>
   );
 }
@@ -75,5 +75,5 @@ export default function BottomNav() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  text: { fontSize: 20, fontWeight: '600' },
+  text: { fontSize: 20, fontWeight: '600', textAlign: 'center' },
 });

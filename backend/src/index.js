@@ -9,7 +9,6 @@ import rateLimit from 'express-rate-limit';
 
 import { connectDB } from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
-import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 
 const app = express();
@@ -56,8 +55,8 @@ app.use('/api/auth', authRoutes);
 
 
 // 404 & error
-app.use(notFound);
-app.use(errorHandler);
+// app.use(notFound);
+// app.use(errorHandler);
 
 
 // Start
